@@ -57,7 +57,7 @@ class Field
             return $str;
         else if (is_string($str) && ($this->type != 'integer' && $this->type != 'real'))
         {
-            return "'" . $str . "'";
+            return '\'' . $str . '\'';
         }
         else
             return $str;
@@ -84,7 +84,7 @@ class Field
      */
     public function setDefaultValue($defaultValue)
     {
-        $this->defaultValue = $this->convertDefaultValueToString($defaultValue);
+        $this->defaultValue = $defaultValue;
     }
 
     /**
