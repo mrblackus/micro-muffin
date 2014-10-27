@@ -14,7 +14,7 @@ class Error
   protected $title;
   protected $message;
 
-  public function Error($t, $m)
+  public function __construct($t, $m)
   {
     $this->title = $t;
     $this->message = $m;
