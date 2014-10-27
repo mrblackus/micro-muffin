@@ -103,9 +103,12 @@ class AbstractSchema
         {
             $fileName = '' . Tools::removeSFromTableName($table->getName()) . '.php';
 
-            $file = fopen($save_dir . $fileName, "w");
-            fwrite($file, $this->ModelToString($table));
-            fclose($file);
+            if (!file_exists($save_dir . $fileName))
+            {
+                $file = fopen($save_dir . $fileName, "w");
+                fwrite($file, $this->ModelToString($table));
+                fclose($file);
+            }
         }
     }
 
