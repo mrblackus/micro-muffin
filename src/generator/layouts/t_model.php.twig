@@ -1,5 +1,5 @@
 <?php
-abstract class {{ tClassName }} extends \Lib\Models\Deletable
+abstract class {{ tClassName }} extends \MicroMuffin\Models\Deletable
 {
   protected static $_table_name    = '{{ tableName }}';
   protected static $_primary_keys  = array({{ primaryKey }});
@@ -72,13 +72,13 @@ abstract class {{ tClassName }} extends \Lib\Models\Deletable
   {
     if (is_null($this->{{ attribute }}))
     {
-      $pdo = \Lib\PDOS::getInstance();
+      $pdo = \MicroMuffin\PDOS::getInstance();
       if (!is_null($order))
         $query = $pdo->prepare('SELECT * FROM {{ otm.getProcedureName }}(:id) ORDER BY ' . $order);
       else
         $query = $pdo->prepare('SELECT * FROM {{ otm.getProcedureName }}(:id)');
 
-      $driver = \Lib\MicroMuffin::getDBDriver();
+      $driver = \MicroMuffin\MicroMuffin::getDBDriver();
       $driver->bindPDOValue($query, ':id', $this->_{{ otm.getField }});
       $query->execute();
 
@@ -102,11 +102,11 @@ abstract class {{ tClassName }} extends \Lib\Models\Deletable
    */
   public static function find({{ find_proto }})
   {
-    $pdo = \Lib\PDOS::getInstance();
+    $pdo = \MicroMuffin\PDOS::getInstance();
     $query = $pdo->prepare('SELECT * FROM {{ findProcedureName }}({{ find_placeholder }})');
 
     //Parameters binding
-    $driver = \Lib\MicroMuffin::getDBDriver();
+    $driver = \MicroMuffin\MicroMuffin::getDBDriver();
 {% for f in pkFields %}
     $driver::bindPDOValue($query, ':{{ f.getName }}', ${{ f.getName }});
 {% endfor %}

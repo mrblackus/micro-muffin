@@ -14,14 +14,14 @@ use MicroMuffin\PDOS;
 
 class Generator
 {
-    const RELATIVE_MODEL_SAVE_DIR    = '/../../app/model/';
-    const RELATIVE_T_MODEL_SAVE_DIR  = '/../../app/t_model/';
-    const RELATIVE_SP_MODEL_SAVE_DIR = '/../../app/sp_model/';
-    const W_CHMOD                    = 640;
+    public static $relativeModelSaveDir;
+    public static $relativeTModelSaveDir;
+    public static $relativeSPModelSaveDir;
+
+    const W_CHMOD = 640;
 
     private static function init()
     {
-        require_once(__DIR__ . '/../MicroMuffin.php');
         MicroMuffin::init();
     }
 
@@ -53,9 +53,9 @@ class Generator
         self::init();
         self::writeLine("micro-muffin v" . LIB_VERSION_NUMBER . " generator");
         self::writeLine("Emptying t_model directory");
-        self::emptyDirectory(__DIR__ . self::RELATIVE_T_MODEL_SAVE_DIR);
+        self::emptyDirectory(self::$relativeTModelSaveDir);
         self::writeLine("Emptying sp_model directory");
-        self::emptyDirectory(__DIR__ . self::RELATIVE_SP_MODEL_SAVE_DIR);
+        self::emptyDirectory(self::$relativeSPModelSaveDir);
 
         self::writeLine("Connecting to " . DBNAME . " on " . DBHOST . "...");
         try
@@ -79,4 +79,30 @@ class Generator
             die();
         }
     }
+
+    /**
+     * @param string $relativeModelSaveDir
+     */
+    public static function setRelativeModelSaveDir($relativeModelSaveDir)
+    {
+        self::$relativeModelSaveDir = $relativeModelSaveDir;
+    }
+
+    /**
+     * @param string $relativeSPModelSaveDir
+     */
+    public static function setRelativeSPModelSaveDir($relativeSPModelSaveDir)
+    {
+        self::$relativeSPModelSaveDir = $relativeSPModelSaveDir;
+    }
+
+    /**
+     * @param string $relativeTModelSaveDir
+     */
+    public static function setRelativeTModelSaveDir($relativeTModelSaveDir)
+    {
+        self::$relativeTModelSaveDir = $relativeTModelSaveDir;
+    }
+
+
 }

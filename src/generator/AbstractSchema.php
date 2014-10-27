@@ -71,7 +71,7 @@ class AbstractSchema
 
         $loader     = new \Twig_Loader_Filesystem(__DIR__ . '/layouts');
         $this->twig = new \Twig_Environment($loader, $twig_options);
-        $this->twig->addFilter("removeS", new \Twig_Filter_Function("\\Lib\\Tools::removeSFromTableName"));
+        $this->twig->addFilter("removeS", new \Twig_Filter_Function("\\MicroMuffin\\Tools::removeSFromTableName"));
     }
 
     public function writeFiles()
@@ -85,7 +85,7 @@ class AbstractSchema
 
     private function writeSPModels()
     {
-        $save_dir = __DIR__ . Generator::RELATIVE_SP_MODEL_SAVE_DIR;
+        $save_dir = Generator::$relativeSPModelSaveDir;
         foreach ($this->storedProcedures as $sp)
         {
             $fileName = $sp->getName() . '.php';
@@ -98,7 +98,7 @@ class AbstractSchema
 
     private function writeModels()
     {
-        $save_dir = __DIR__ . Generator::RELATIVE_MODEL_SAVE_DIR;
+        $save_dir = Generator::$relativeModelSaveDir;
         foreach ($this->tables as $table)
         {
             $fileName = '' . Tools::removeSFromTableName($table->getName()) . '.php';
@@ -111,7 +111,7 @@ class AbstractSchema
 
     private function writeT_Models()
     {
-        $save_dir = __DIR__ . Generator::RELATIVE_T_MODEL_SAVE_DIR;
+        $save_dir = Generator::$relativeTModelSaveDir;
         foreach ($this->tables as $table)
         {
             $fileName = 't_' . Tools::removeSFromTableName($table->getName()) . '.php';
@@ -127,7 +127,7 @@ class AbstractSchema
         $variables = array();
 
         $variables['className']  = $sp->getClassName();
-        $variables['modelClass'] = '\\Lib\\Models\\Model';
+        $variables['modelClass'] = '\\MicroMuffin\\Models\\Model';
         $variables['name']       = $sp->getName();
         $variables['returnType'] = $sp->getCleanReturnType();
 

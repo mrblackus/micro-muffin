@@ -38,7 +38,7 @@ class MicroMuffin
   {
     require_once(__DIR__ . '/config.php');
 
-      ClassLoader::register();
+    ClassLoader::register();
   }
 
   private function route()
