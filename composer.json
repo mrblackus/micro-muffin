@@ -5,7 +5,6 @@
     "autoload": {
         "psr-4": { "MicroMuffin\\": "src/" }
     },
-    "prefer-stable": true,
     "authors": [
         {
             "name": "Mathieu Savy",
