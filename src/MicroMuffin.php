@@ -61,7 +61,6 @@ class MicroMuffin
   private function checkRoute()
   {
     $className = $this->route->getController() . 'Controller';
-      var_dump($className);
     if (class_exists($className))
     {
       $this->controller = new $className();

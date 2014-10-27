@@ -12,7 +12,6 @@
         }
     ],
     "require": {
-        "twig/twig": "~1.16",
-        "illuminate/support": "~4.2"
+        "twig/twig": "~1.16"
     }
 }
