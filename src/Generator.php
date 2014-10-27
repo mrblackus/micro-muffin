@@ -74,7 +74,7 @@ class Generator
     //define('NOAUTOLOAD', true);
 
     require_once(__DIR__ . '/autoloader.php');
-    require_once(__DIR__ . '/generator/DriverType.php');
+    require_once(__DIR__ . '/Generator/DriverType.php');
     require_once(__DIR__ . '/config.php');
     require_once(__DIR__ . '/MicroMuffin.php');
     require_once(__DIR__ . '/pdos.php');
@@ -1036,13 +1036,13 @@ class Generator
 //    $generator->init();
 //    $generator->execute();
       require_once(__DIR__ . '/autoloader.php');
-      require_once(__DIR__ . '/generator/DriverType.php');
+      require_once(__DIR__ . '/Generator/DriverType.php');
       require_once(__DIR__ . '/config.php');
       require_once(__DIR__ . '/MicroMuffin.php');
       require_once(__DIR__ . '/pdos.php');
       require_once(__DIR__ . '/epo.php');
       require_once(__DIR__ . '/../' . CONFIG_DIR . '/config.php');
-      require_once(__DIR__ . '/generator/Generator.php');
+      require_once(__DIR__ . '/Generator/Generator.php');
       \MicroMuffin\Generator\Generator::run();
   }
 }

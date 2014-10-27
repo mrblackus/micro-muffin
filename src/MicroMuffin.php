@@ -10,9 +10,9 @@
 namespace MicroMuffin;
 
 use MicroMuffin\Generator\Driver;
-use MicroMuffin\Generator\DriverType;
 use MicroMuffin\Router\Route;
 use MicroMuffin\Router\Router;
+use MicroMuffin\Error;
 
 class MicroMuffin
 {
@@ -36,20 +36,7 @@ class MicroMuffin
 
   public static function init()
   {
-    require_once(__DIR__ . '/autoloader.php');
-    require_once(__DIR__ . '/generator/DriverType.php');
-    require_once(__DIR__ . '/../config/config.php');
     require_once(__DIR__ . '/config.php');
-
-    /*
-     * WARNING ! Do not call Autoloader::register before the three includes before
-     */
-    Autoloader::register();
-
-    require_once('../app/routes.php');
-    require_once('../' . VENDORS_DIR . 'Twig/Autoloader.php');
-
-    \Twig_Autoloader::register();
   }
 
   private function route()
@@ -64,7 +51,7 @@ class MicroMuffin
     else
     {
       header("HTTP/1.0 404 Not Found");
-      $e = new \MicroMuffin\Error("Page not found", "The page you are looking for doesn't exist.");
+      $e = new Error("Page not found", "The page you are looking for doesn't exist.");
       $e->display();
     }
   }
@@ -72,6 +59,7 @@ class MicroMuffin
   private function checkRoute()
   {
     $className = $this->route->getController() . 'Controller';
+      var_dump($className);
     if (class_exists($className))
     {
       $this->controller = new $className();
@@ -80,14 +68,14 @@ class MicroMuffin
       else
       {
         //Undefined action
-        $e = new \MicroMuffin\Error('Undefined action', 'Action ' . $this->route->getAction() . ' doesn\'t exist on ' . $this->route->getController() . ' controller.');
+        $e = new Error('Undefined action', 'Action ' . $this->route->getAction() . ' doesn\'t exist on ' . $this->route->getController() . ' controller.');
         $e->display();
       }
     }
     else
     {
       //Undefined controller
-      $e = new \MicroMuffin\Error('Undefined controller', $this->route->getController() . ' doesn\'t exist.');
+      $e = new Error('Undefined controller', $this->route->getController() . ' doesn\'t exist.');
       $e->display();
     }
   }
@@ -109,8 +97,8 @@ class MicroMuffin
 
       $loader = new \Twig_Loader_Filesystem('../' . VIEW_DIR . strtolower($this->route->getController()));
       $twig   = new \Twig_Environment($loader, $twig_options);
-      $twig->addFilter("tr", new \Twig_Filter_Function("\\Lib\\Internationalization::translate"));
-      $twig->addFilter("url", new \Twig_Filter_Function("\\Lib\\Tools::sanitizeForUrl"));
+      $twig->addFilter("tr", new \Twig_Filter_Function("\\MicroMuffin\\Internationalization::translate"));
+      $twig->addFilter("url", new \Twig_Filter_Function("\\MicroMuffin\\Tools::sanitizeForUrl"));
 
       $page = $twig->render(($render == "true" ? $this->action : $render) . ".html.twig", $this->controller->getVariables());
 
@@ -120,8 +108,8 @@ class MicroMuffin
       {
         $loader = new \Twig_Loader_Filesystem('../' . VIEW_DIR . 'base');
         $twig   = new \Twig_Environment($loader, $twig_options);
-        $twig->addFilter("tr", new \Twig_Filter_Function("\\Lib\\Internationalization::translate"));
-        $twig->addFilter("url", new \Twig_Filter_Function("\\Lib\\Tools::sanitizeForUrl"));
+        $twig->addFilter("tr", new \Twig_Filter_Function("\\MicroMuffin\\Internationalization::translate"));
+        $twig->addFilter("url", new \Twig_Filter_Function("\\MicroMuffin\\Tools::sanitizeForUrl"));
 
         $base = new \BaseController();
         $base->$layout();
