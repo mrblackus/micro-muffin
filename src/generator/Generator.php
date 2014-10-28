@@ -30,7 +30,7 @@ class Generator
         /** @var $file \DirectoryIterator */
         foreach (new \DirectoryIterator($dirName) as $file)
         {
-            if (!$file->isDot() && $file->getFilename() != 'empty')
+            if (!$file->isDot() && $file->getFilename() != '.gitkeep')
             {
                 chmod($file->getPathname(), self::W_CHMOD);
                 unlink($file->getPathname());
@@ -103,6 +103,4 @@ class Generator
     {
         self::$relativeTModelSaveDir = $relativeTModelSaveDir;
     }
-
-
 }
