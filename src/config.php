@@ -9,7 +9,7 @@
 
 namespace MicroMuffin;
 
-define('LIB_VERSION_NUMBER', '1.3.0-alpha');
+define('LIB_VERSION_NUMBER', '1.3.0');
 
 define('BASE_DIR', '');
 define('CONTROLLER_DIR', BASE_DIR . 'app/controller/');
