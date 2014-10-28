@@ -20,6 +20,12 @@ abstract class Driver implements IParamBindable, IDriveHasTypeString
 
     public abstract function writeOneToManyProcedure($foreignTable, $foreignColumn, $foreignColumnClean, $tableName, $columnType);
 
+    public abstract function writeAllProcedure(Table $table);
+
+    public abstract function writeCountProcedure(Table $table);
+
+    public abstract function writeTakeProcedure(Table $table);
+
     /**
      * @return AbstractSchema
      */

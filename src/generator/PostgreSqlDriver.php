@@ -218,6 +218,81 @@ class PostgreSqlDriver extends Driver
     }
 
     /**
+     * @param Table $table
+     * @return string Name of the stored procedure
+     */
+    public function writeAllProcedure(Table $table)
+    {
+        $pdo           = PDOS::getInstance();
+        $sTableName    = $table->getName();
+        $procedureName = 'getall' . $sTableName;
+
+        $pdo->exec("CREATE OR REPLACE function " . $procedureName . "()
+          RETURNS SETOF " . $sTableName . " AS
+          'SELECT * FROM " . $sTableName . "'
+          LANGUAGE SQL VOLATILE
+          COST 100;
+          ALTER function " . $procedureName . "()
+          OWNER TO \"" . DBUSER . "\";");
+
+        return $procedureName;
+    }
+
+    /**
+     * @param Table $table
+     * @return string Name of the stored procedure
+     */
+    public function writeTakeProcedure(Table $table)
+    {
+        $sTableName    = $table->getName();
+        $procedureName = 'take' . $sTableName;
+        $pdo           = PDOS::getInstance();
+
+        $pdo->exec("
+        CREATE OR REPLACE FUNCTION $procedureName(start integer, \"number\" integer, order_ character varying)
+          RETURNS SETOF $sTableName AS
+        \$BODY\$BEGIN
+          IF \$3 IS NOT NULL AND \$3 <> 'null' THEN
+            RETURN QUERY EXECUTE 'SELECT * FROM $sTableName ORDER BY ' || $3 || ' OFFSET \$1 LIMIT \$2' USING \$1, \$2;
+          ELSE
+            RETURN QUERY EXECUTE 'SELECT * FROM $sTableName OFFSET \$1 LIMIT \$2' USING \$1, \$2;
+          END IF;
+        END
+        \$BODY$
+          LANGUAGE plpgsql VOLATILE
+          COST 100
+          ROWS 1000;
+        ALTER FUNCTION $procedureName(integer, integer, character varying)
+          OWNER TO \"" . DBUSER . "\";
+        ");
+
+        return $procedureName;
+    }
+
+    /**
+     * @param Table $table
+     * @return string Name of the stored procedure
+     */
+    public function writeCountProcedure(Table $table)
+    {
+        $pdo           = PDOS::getInstance();
+        $sTableName    = $table->getName();
+        $procedureName = 'count' . $sTableName;
+
+        $pdo->exec("
+          CREATE OR REPLACE function " . $procedureName . "()
+          RETURNS bigint AS
+          'SELECT COUNT(*) FROM " . $sTableName . "'
+          LANGUAGE sql VOLATILE
+          COST 100;
+          ALTER function count" . $sTableName . "()
+          OWNER TO \"" . DBUSER . "\";
+          ");
+
+        return $procedureName;
+    }
+
+    /**
      * @param \PDOStatement $statement
      * @param string        $sParamName
      * @param mixed         $paramValue

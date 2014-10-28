@@ -238,6 +238,11 @@ class AbstractSchema
         $variables['find_placeholder']  = substr($find_placeholder, 0, -2);
         $variables['find_checkNull']    = substr($find_checkNull, 0, -4);
         $variables['find_result']       = $find_result;
+
+        $variables['SPGetAll'] = $this->driver->writeAllProcedure($table);
+        $variables['SPTake']   = $this->driver->writeTakeProcedure($table);
+        $variables['SPCount']  = $this->driver->writeCountProcedure($table);
+
         $variables['pkFields']          = $table->getPrimaryKey()->getFields();
         $variables['findProcedureName'] = $this->driver->writeFindProcedure($table);
 

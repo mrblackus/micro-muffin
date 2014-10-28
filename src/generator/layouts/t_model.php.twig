@@ -1,10 +1,13 @@
 <?php
 abstract class {{ tClassName }} extends \MicroMuffin\Models\Deletable
 {
-  protected static $_table_name    = '{{ tableName }}';
-  protected static $_primary_keys  = array({{ primaryKey }});
-  protected static $_fields        = array({{ field_list }});
-  protected static $_sequences     = array({{ sequencesArray }});
+  protected static $_table_name      = '{{ tableName }}';
+  protected static $_primary_keys    = array({{ primaryKey }});
+  protected static $_fields          = array({{ field_list }});
+  protected static $_sequences       = array({{ sequencesArray }});
+  protected static $_procstock_all   = '{{ SPGetAll }}';
+  protected static $_procstock_count = '{{ SPCount }}';
+  protected static $_procstock_take  = '{{ SPTake }}';
 
 {% for f in fields %}
   protected $_{{ f.getName }} = {{ f.defaultValueToString }};
