@@ -12,6 +12,7 @@ namespace MicroMuffin;
 class Log
 {
   private static $instance;
+  private static $logDirectory;
   private $file;
 
   private static function getInstance()
@@ -34,10 +35,9 @@ class Log
 
   private function __construct()
   {
-    $sDirPath  = __DIR__ . "/../log";
-    $sFilePath = $sDirPath . "/real-time.log";
+    $sFilePath = self::$logDirectory . "/real-time.log";
 
-    if (is_writable($sDirPath))
+    if (is_writable(self::$logDirectory))
     {
       if (!file_exists($sFilePath) || is_writable($sFilePath))
         $this->file = fopen($sFilePath, "a");
@@ -46,7 +46,15 @@ class Log
     }
   }
 
-  public function __destruct()
+    /**
+     * @param mixed $logDirectory
+     */
+    public static function setLogDirectory($logDirectory)
+    {
+        self::$logDirectory = $logDirectory;
+    }
+
+    public function __destruct()
   {
     if ($this->file)
       fclose($this->file);
