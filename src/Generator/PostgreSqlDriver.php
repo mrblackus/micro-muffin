@@ -96,7 +96,8 @@ class PostgreSqlDriver extends Driver
             information_schema.table_constraints AS tc
             INNER JOIN information_schema.constraint_column_usage AS ccu ON tc.constraint_name = ccu.constraint_name
             INNER JOIN information_schema.columns AS c ON c.column_name = ccu.column_name AND c.table_name = tc.table_name
-        WHERE tc.constraint_type = 'PRIMARY KEY' AND tc.constraint_schema = '" . DBSCHEMA . "'");
+        WHERE tc.constraint_type = 'PRIMARY KEY' AND tc.constraint_schema = '" . DBSCHEMA . "'
+        ORDER BY tc.table_name, ccu.column_name");
         $query->execute();
 
         /** @var PrimaryKey[] $primaryKeys */

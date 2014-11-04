@@ -9,7 +9,7 @@
 
 namespace MicroMuffin;
 
-define('LIB_VERSION_NUMBER', '1.3.2');
+define('LIB_VERSION_NUMBER', '1.3.3');
 
 define('BASE_DIR', '');
 define('VIEW_DIR', BASE_DIR . 'app/view/');
