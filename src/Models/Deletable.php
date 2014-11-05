@@ -25,7 +25,7 @@ abstract class Deletable extends Writable
     $pdo = PDOS::getInstance();
 
     $whereClause = '';
-    foreach ($class::$primary_keys as $pk)
+    foreach (static::$_primary_keys as $pk)
       $whereClause .= $pk . ' = :' . $pk . ' AND ';
     $whereClause = substr($whereClause, 0, -4);
     $sql         = 'DELETE FROM ' . $table . ' WHERE ' . $whereClause;
@@ -33,7 +33,7 @@ abstract class Deletable extends Writable
     $attributes  = $this->getAttributes(new \ReflectionClass($this));
     foreach ($attributes as $k => $v)
     {
-      if (in_array($k, $class::$primary_keys))
+      if (in_array($k, static::$_primary_keys))
         $query->bindValue(':' . $k, $v);
     }
     $query->execute();
