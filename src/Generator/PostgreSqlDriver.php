@@ -41,12 +41,16 @@ class PostgreSqlDriver extends Driver
           table_name,
           column_name,
           column_default,
-          data_type,
           pg_get_serial_sequence(table_name, column_name) AS sequence_name
         FROM
           information_schema.columns
         WHERE
           table_schema = '" . DBSCHEMA . "'
+          AND table_name in (SELECT table_name
+            FROM information_schema.tables
+            WHERE table_schema= '" . DBSCHEMA . "'
+            AND table_type='BASE TABLE'
+          )
         ORDER BY
           table_name");
         $query->execute();
