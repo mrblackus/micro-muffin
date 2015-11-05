@@ -41,6 +41,7 @@ class PostgreSqlDriver extends Driver
           table_name,
           column_name,
           column_default,
+          data_type,
           pg_get_serial_sequence(table_name, column_name) AS sequence_name
         FROM
           information_schema.columns
