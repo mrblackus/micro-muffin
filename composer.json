@@ -1,7 +1,7 @@
 {
     "name": "mrblackus/micro-muffin",
     "description": "Micro-Muffin framework core library",
-    "version": "1.4.0",
+    "version": "1.4.2",
     "autoload": {
         "psr-4": { "MicroMuffin\\": "src/" }
     },
